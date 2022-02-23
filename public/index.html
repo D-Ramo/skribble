@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <script src='main.js'></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io("http://localhost:3000");
+        const createGame = () => {
+            console.log("hello")
+            socket.emit('createGame')
+            socket.on('gameCreated', (data) => {
+                document.getElementById("tokenToShare").innerText = data.session
+
+            })
+        }
+        const joinGame = (Event) => {
+            const sessionId = document.getElementById('sessionId').value
+            socket.emit("join", {sessionId})
+        }
+
+
+    </script>
+</head>
+
+<body>
+    <button onClick="createGame()">Create</button>
+    <h5 id="tokenToShare"></h5>
+    sessionID = <input id="sessionId" type="text">
+    <button onClick="joinGame()">Join</button>
+
+</body>
+
+</html>
